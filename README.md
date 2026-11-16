@@ -1,6 +1,10 @@
-# CCTV Human Parsing 600
+# CCTV Human Parsing 600 Dataset
+
+**Person Detection and Four-Part Human Parsing**
 
 ชุดข้อมูลภาพ CCTV จำนวน **600 ภาพ** พร้อมกรอบบุคคลและ annotation สี่ส่วน ได้แก่ **Hair, Face, Upper และ Lower** แต่ละส่วนเชื่อมกับบุคคลในภาพด้วย person ID เพื่อรองรับทั้งการประเมินตำแหน่งคนและการแยกส่วนรายบุคคล
+
+ชื่อ repository สำหรับเอกสารส่งมอบคือ [CCTV-Human-Parsing-600-Dataset](https://github.com/folklazy/CCTV-Human-Parsing-600-Dataset) ส่วนรหัสชุดข้อมูลใน release metadata คือ `CCTV-Human-Parsing-600` เพื่ออ้างถึงสมาชิกและ annotation ของรุ่นที่กำหนด
 
 เอกสารชุดนี้เป็นรายละเอียดส่งมอบของ dataset รุ่น 1.0.0 ประกอบด้วยนิยามคลาส รหัสป้ายกำกับ รูปแบบไฟล์ วิธีจัดทำ การตรวจคุณภาพ และเงื่อนไขการนำไปใช้
 
@@ -8,7 +12,8 @@
 
 | รายการ | รายละเอียด |
 | --- | --- |
-| ชื่อชุดข้อมูล | CCTV Human Parsing 600 |
+| ชื่อชุดข้อมูล | CCTV Human Parsing 600 Dataset |
+| รหัสชุดข้อมูลสำหรับ release และ bindings | `CCTV-Human-Parsing-600` |
 | รุ่นข้อกำหนด | 1.0.0 |
 | จำนวนภาพ | 600 ภาพ |
 | งานหลัก | Person bounding-box detection และ four-part human parsing |
@@ -174,6 +179,6 @@ Annotation ที่ผูกไว้ในรุ่นนี้ยังคง
 
 การแก้ annotation หลังรุ่นนี้ให้บันทึก revision, เหตุผล และ old/new hashes เพื่อให้ผลทดลองแต่ละรอบอ้างชุดคำตอบที่ตรงกัน การเปลี่ยนรหัสคลาสหรือความหมายคลาสต้องเพิ่มรุ่น ontology และระบุ mapping ที่ใช้แปลงข้อมูล
 
-หากอ้างอิงชุดนี้ ให้ระบุชื่อ **CCTV Human Parsing 600**, รุ่น **1.0.0** และ commit ของ repository ที่ใช้งาน ปัจจุบันยังไม่มี DOI หรือบทความเผยแพร่ของชุดข้อมูลนี้
+หากอ้างอิงชุดนี้ ให้ระบุชื่อ **CCTV Human Parsing 600 Dataset**, รุ่น **1.0.0** และ commit ของ repository ที่ใช้งาน ปัจจุบันยังไม่มี DOI หรือบทความเผยแพร่ของชุดข้อมูลนี้
 
 โครงสร้างเอกสารครอบคลุมที่มา องค์ประกอบ การจัดทำ ขอบเขตการใช้ การเผยแพร่ และการดูแลตามหัวข้อใน Datasheets for Datasets [Gebru et al., 2021](https://arxiv.org/html/1803.09010v8)

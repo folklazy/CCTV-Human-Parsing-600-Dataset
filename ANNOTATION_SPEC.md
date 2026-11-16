@@ -1,4 +1,4 @@
-# ข้อกำหนด annotation ของ CCTV Human Parsing 600
+# ข้อกำหนด annotation ของ CCTV Human Parsing 600 Dataset
 
 **Specification version 1.0.0**
 
