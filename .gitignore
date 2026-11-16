@@ -9,6 +9,7 @@ outputs/
 *.jpg
 *.jpeg
 *.png
+!assets/label-palette.png
 *.mp4
 *.zip
 *.tar.gz

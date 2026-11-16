@@ -68,6 +68,8 @@ Shape หมายถึงบริเวณที่วาดหนึ่ง�
 
 ## 3. รหัสป้ายกำกับ
 
+![พาเลตแสดงคลาส Unassigned, Hair, Face, Upper, Lower และ Ignore พร้อม Label ID และค่า RGB](assets/label-palette.png)
+
 | Label ID | ชื่อใน JSON | ความหมาย | RGB สำหรับแสดงผล |
 | --- | --- | --- | --- |
 | 0 | ไม่มี shape โดยตรง | Unassigned พื้นที่ที่ยังไม่มี target label กำกับ | 0, 0, 0 |
@@ -106,6 +108,8 @@ CCTV_Human_Parsing_600/
 ├── README.md
 ├── ANNOTATION_SPEC.md
 ├── DATASET.json
+├── assets/
+│   └── label-palette.png
 ├── schema/
 │   ├── labels.json
 │   └── annotation.schema.json
