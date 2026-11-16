@@ -1,0 +1,21 @@
+{
+  "dataset": "CCTV-Human-Parsing-600",
+  "ontology_version": "1.0.0",
+  "source_representation": "X-AnyLabeling shape labels",
+  "numeric_ids_assigned_for_this_release": true,
+  "labels": [
+    {"id": 0, "name": "unassigned", "source_label": null, "kind": "unassigned", "requires_person_id": false, "rgb": [0, 0, 0]},
+    {"id": 1, "name": "hair", "source_label": "hair", "kind": "part", "requires_person_id": true, "rgb": [128, 64, 192]},
+    {"id": 2, "name": "face", "source_label": "face", "kind": "part", "requires_person_id": true, "rgb": [255, 166, 77]},
+    {"id": 3, "name": "upper", "source_label": "upper", "kind": "part", "requires_person_id": true, "rgb": [0, 158, 115]},
+    {"id": 4, "name": "lower", "source_label": "lower", "kind": "part", "requires_person_id": true, "rgb": [0, 114, 178]},
+    {"id": 255, "name": "ignore", "source_label": "ignore", "kind": "ignore", "requires_person_id": false, "rgb": [160, 160, 160]}
+  ],
+  "detection_categories": [
+    {"category_id": 1, "name": "person", "source_label": "bbox", "geometry": "rectangle"}
+  ],
+  "unknown_source_label_policy": "error",
+  "unassigned_negative_domain": "not_certified",
+  "train_id_mapping": "experiment_specific",
+  "palette_purpose": "annotation_visualization_only"
+}

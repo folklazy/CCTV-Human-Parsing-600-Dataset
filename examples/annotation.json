@@ -1,0 +1,17 @@
+{
+  "version": "synthetic-example",
+  "flags": {},
+  "imagePath": "example.jpg",
+  "imageData": null,
+  "imageWidth": 640,
+  "imageHeight": 480,
+  "description": "Synthetic geometry for illustrating the data format",
+  "shapes": [
+    {"label": "bbox", "shape_type": "rectangle", "points": [[100,80],[220,80],[220,420],[100,420]], "group_id": 1, "attributes": {}, "flags": {}},
+    {"label": "hair", "shape_type": "polygon", "points": [[135,80],[175,80],[180,105],[130,105]], "group_id": 1, "attributes": {}, "flags": {}},
+    {"label": "face", "shape_type": "polygon", "points": [[140,108],[170,108],[168,140],[142,140]], "group_id": 1, "attributes": {}, "flags": {}},
+    {"label": "upper", "shape_type": "polygon", "points": [[115,150],[205,150],[210,270],[110,270]], "group_id": 1, "attributes": {}, "flags": {}},
+    {"label": "lower", "shape_type": "polygon", "points": [[120,275],[200,275],[195,395],[125,395]], "group_id": 1, "attributes": {}, "flags": {}},
+    {"label": "ignore", "shape_type": "rectangle", "points": [[580,100],[610,100],[610,140],[580,140]], "group_id": null, "attributes": {}, "flags": {}}
+  ]
+}

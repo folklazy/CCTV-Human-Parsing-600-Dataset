@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CCTV-Human-Parsing-600 source annotation schema 1.0.0",
+  "type": "object",
+  "required": ["version", "shapes", "imagePath", "imageWidth", "imageHeight"],
+  "properties": {
+    "version": {"type": "string"},
+    "imagePath": {"type": "string", "minLength": 1},
+    "imageWidth": {"type": "integer", "minimum": 1},
+    "imageHeight": {"type": "integer", "minimum": 1},
+    "imageData": {"type": ["string", "null"]},
+    "checked": {"type": "boolean"},
+    "flags": {"type": "object"},
+    "description": {"type": ["string", "null"]},
+    "shapes": {"type": "array", "items": {"$ref": "#/$defs/shape"}}
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "point": {"type": "array", "prefixItems": [{"type": "number"}, {"type": "number"}], "items": false, "minItems": 2},
+    "shape": {
+      "type": "object",
+      "required": ["label", "shape_type", "points", "group_id"],
+      "properties": {
+        "label": {"enum": ["bbox", "hair", "face", "upper", "lower", "ignore"]},
+        "shape_type": {"enum": ["rectangle", "polygon"]},
+        "points": {"type": "array", "items": {"$ref": "#/$defs/point"}, "minItems": 2},
+        "group_id": {"type": ["integer", "null"], "minimum": 1},
+        "score": {"type": ["number", "null"]},
+        "attributes": {"type": "object"},
+        "flags": {"type": ["object", "null"]},
+        "description": {"type": ["string", "null"]},
+        "difficult": {"type": "boolean"},
+        "review_status": {"type": ["string", "null"]}
+      },
+      "allOf": [
+        {"if": {"properties": {"label": {"enum": ["bbox", "hair", "face", "upper", "lower"]}}}, "then": {"properties": {"group_id": {"type": "integer", "minimum": 1}}}},
+        {"if": {"properties": {"label": {"enum": ["bbox", "ignore"]}}}, "then": {"properties": {"shape_type": {"const": "rectangle"}}}},
+        {"if": {"properties": {"shape_type": {"const": "polygon"}}}, "then": {"properties": {"points": {"minItems": 3}}}},
+        {"if": {"properties": {"shape_type": {"const": "rectangle"}}}, "then": {"properties": {"points": {"oneOf": [{"minItems": 2, "maxItems": 2}, {"minItems": 4, "maxItems": 4}]}}}}
+      ],
+      "additionalProperties": true
+    }
+  }
+}

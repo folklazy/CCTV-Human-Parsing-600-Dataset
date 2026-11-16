@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+config.local.json
+data/
+private/
+outputs/
+*.jpg
+*.jpeg
+*.png
+*.mp4
+*.zip
+*.tar.gz

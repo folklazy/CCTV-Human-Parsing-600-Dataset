@@ -1,0 +1,167 @@
+{
+  "dataset": "CCTV-Human-Parsing-600",
+  "dataset_version": "1.0.0",
+  "ontology_version": "1.0.0",
+  "image_count": 600,
+  "annotation_format": "X-AnyLabeling JSON polygons and rectangles",
+  "annotation_acceptance": "user_confirmed_snapshot",
+  "primary_person_eligibility": {
+    "coordinate_frame": "original_image",
+    "bbox_scope": "visible_person",
+    "measure": "max(width,height)",
+    "minimum_px": 50,
+    "eligible_boxes": 769,
+    "retained_excluded_boxes": 5
+  },
+  "counts": {
+    "person_boxes": 774,
+    "part_shapes": 2471,
+    "ignore_shapes": 172,
+    "shapes_per_class": {
+      "hair": 554,
+      "face": 398,
+      "upper": 804,
+      "lower": 715
+    },
+    "image_person_pairs_per_class": {
+      "hair": 549,
+      "face": 396,
+      "upper": 745,
+      "lower": 668
+    },
+    "images_per_class": {
+      "hair": 436,
+      "face": 331,
+      "upper": 532,
+      "lower": 484
+    }
+  },
+  "geometry_counts": [
+    {
+      "label": "bbox",
+      "shape_type": "rectangle",
+      "count": 774
+    },
+    {
+      "label": "face",
+      "shape_type": "polygon",
+      "count": 397
+    },
+    {
+      "label": "face",
+      "shape_type": "rectangle",
+      "count": 1
+    },
+    {
+      "label": "hair",
+      "shape_type": "polygon",
+      "count": 554
+    },
+    {
+      "label": "ignore",
+      "shape_type": "rectangle",
+      "count": 172
+    },
+    {
+      "label": "lower",
+      "shape_type": "polygon",
+      "count": 711
+    },
+    {
+      "label": "lower",
+      "shape_type": "rectangle",
+      "count": 4
+    },
+    {
+      "label": "upper",
+      "shape_type": "polygon",
+      "count": 802
+    },
+    {
+      "label": "upper",
+      "shape_type": "rectangle",
+      "count": 2
+    }
+  ],
+  "image_dimensions": {
+    "width_min_max": [
+      1280,
+      2688
+    ],
+    "height_min_max": [
+      720,
+      1520
+    ]
+  },
+  "metadata_coverage": {
+    "named_site_codes": 8,
+    "unknown_site_images": 2,
+    "site_camera_pairs_including_unknown": 67,
+    "day_images": 243,
+    "night_images": 357,
+    "diurnal_is_metadata": true
+  },
+  "verification": {
+    "annotation_schema_pass": 600,
+    "image_hash_pass": 600,
+    "annotation_hash_pass": 600,
+    "prior_strict_image_decode_pass": 600,
+    "prior_dimension_match": 600,
+    "duplicate_byte_groups": 0,
+    "duplicate_rgb_groups": 0,
+    "orphan_part_ids": 0,
+    "duplicate_bbox_ids": 0,
+    "image_or_annotation_files_modified": 0,
+    "independent_semantic_review": "targeted_examples_only"
+  },
+  "known_issues": {
+    "zero_geometric_area_part_shapes": 5,
+    "out_of_frame_shapes": 4,
+    "ignore_shapes_with_owner": 1,
+    "cross_class_pixels": 7901,
+    "cross_class_images": 182,
+    "interior_cross_class_pixels_after_erosion": 3888,
+    "interior_cross_class_images_after_erosion": 17,
+    "cross_owner_pixels": 91,
+    "cross_owner_images": 8,
+    "ignore_target_overlap_pixels": 107,
+    "ignore_target_overlap_images": 2,
+    "targeted_semantic_class_issue_cases": 1
+  },
+  "coverage_limits": {
+    "complete_full_person_mask_gt": false,
+    "complete_color_gt": false,
+    "complete_part_absence_visibility_states": false,
+    "complete_cross_zone_garment_tags": false,
+    "cross_image_person_identity": false,
+    "independent_inter_annotator_agreement": "not_measured",
+    "human_edit_time": "not_measured",
+    "independent_heldout_test": "not_established"
+  },
+  "end_user_split": "unassigned",
+  "distribution": {
+    "documentation": "GitHub",
+    "images_annotations_metadata": "restricted"
+  },
+  "membership_sha256": "d9a5cdc80d3b1f462125776e02c2ef1e87be1b881bdd3482e81d72fdaf25d6fc",
+  "membership_hash_definition": "sha256 of compact UTF-8 JSON array [image_id,image_sha256,annotation_sha256] ordered by image_id, without trailing newline",
+  "ontology_sha256": "4da8446c22d7c2a7aa896b46d38ba2cf60ba52308e6b42cea1bca026a8d28c7c",
+  "annotation_schema_sha256": "4af5266a5eb1d5935b6d980fb24c975d282893bb47d96560bca12e0abed194d3",
+  "statistics_date": "2026-11-16",
+  "release_qa_status": "USER_CLOSED_WITH_DOCUMENTED_QUALITY_ISSUES",
+  "private_manifest_sha256": "fb17457b918e5cc86d0866f9f1e3651fd2605e427f8e7aa952b2f1aae1958cf4",
+  "metadata_columns": [
+    "image_id",
+    "image_path",
+    "annotation_path",
+    "image_sha256",
+    "annotation_sha256",
+    "width",
+    "height",
+    "site_code",
+    "camera_code",
+    "source_timestamp",
+    "diurnal_metadata",
+    "exposure_status"
+  ]
+}
