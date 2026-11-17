@@ -17,6 +17,14 @@ evaluation-domain limitation explicit and distinguish user acceptance from full
 visible-surface semantic verification. Read README for the delivered counts and
 review scope.
 
+The user confirmed selected-person coverage and closed the600-image annotation
+scope despite unannotated people. Source ID0 remains unassigned. Evaluate
+annotated person-parts with explicit reference domains and retain missed GT
+penalties. Person recall covers annotated people. Unmatched detections need
+diagnostic wording. Full-scene detector AP/precision/F1 and global semantic
+background metrics lack certified negative coverage. Keep these limits in
+reports. This documentation review authorizes no model launch or source GT edits.
+
 This repository describes only the closed 600-image CCTV annotation dataset.
 Keep the README dataset-focused and write Thai prose in a direct academic style.
 The annotation specification and schema define the release contract.

@@ -120,7 +120,9 @@
     "cross_image_person_identity": false,
     "independent_inter_annotator_agreement": "not_measured",
     "human_edit_time": "not_measured",
-    "independent_heldout_test": "not_established"
+    "independent_heldout_test": "not_established",
+    "complete_person_inventory": false,
+    "verified_global_background_gt": false
   },
   "end_user_split": "unassigned",
   "distribution": {
@@ -161,5 +163,53 @@
     "evaluation_export": "shared-reference valid domain excludes cross-class overlaps identically across models",
     "reporting": "report target pixel support and eligible GT parts after export; parts with zero valid support are excluded",
     "observed_zero_support_Hair_parts_in_three_reviewed_examples": 1
+  },
+  "annotation_coverage": {
+    "person_inventory": "selected_people_partial",
+    "complete_person_inventory": false,
+    "closure": "user_closed_annotation_scope_at_600_images",
+    "confirmation_source": "user_statement",
+    "source_ID_0": "unassigned",
+    "verified_global_negative_pixel_domain": false,
+    "positive_part_reference": "human-reviewed visible reference extents for annotated person-parts; absent shape has no complete visibility state"
+  },
+  "evaluation_scope": {
+    "primary": "annotated_person_part_agreement",
+    "supports_annotated_person_recall": true,
+    "supports_full_scene_person_AP_precision_F1": false,
+    "supports_certified_full_scene_semantic_mIoU": false,
+    "unmatched_detections": "unmatched_predictions_diagnostic_without_confirmed_FP_status",
+    "zero_source_ID_policy": "retain_unassigned_and_build_task_specific_valid_domains"
+  },
+  "shared_reference_GT": {
+    "coordinate_frame": "original_image",
+    "minimum_source_bbox_long_side_px": 50,
+    "eligible_people": 769,
+    "reference_target_ids": {
+      "1": "Face_local",
+      "2": "Hair",
+      "3": "Upper",
+      "4": "Lower"
+    },
+    "parts_before_shared_domain": {
+      "1": 384,
+      "2": 545,
+      "3": 745,
+      "4": 668
+    },
+    "eligible_parts_after_shared_domain": {
+      "1": 384,
+      "2": 544,
+      "3": 745,
+      "4": 668
+    },
+    "GT_support_after_shared_domain": {
+      "1": 265216,
+      "2": 825356,
+      "3": 4394789,
+      "4": 1892964
+    },
+    "scope": "GT-domain preflight for annotated person-part tasks",
+    "binding": "dataset membership plus explicit exporter/scorer source identity"
   }
 }

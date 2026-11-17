@@ -1,8 +1,8 @@
 # CCTV Human Parsing 600 Dataset
 
-**Person Detection and Four-Part Human Parsing**
+**Selected-Person Bounding Boxes and Four-Part Human Parsing**
 
-ชุดข้อมูลภาพ CCTV จำนวน **600 ภาพ** พร้อมกรอบบุคคลและ annotation สี่ส่วน ได้แก่ **Hair, Face, Upper และ Lower** แต่ละส่วนเชื่อมกับบุคคลในภาพด้วย person ID เพื่อรองรับทั้งการประเมินตำแหน่งคนและการแยกส่วนรายบุคคล
+ชุดข้อมูลภาพ CCTV จำนวน **600 ภาพ** พร้อมกรอบของบุคคลที่เลือก annotate และ annotation สี่ส่วน ได้แก่ **Hair, Face, Upper และ Lower** แต่ละส่วนเชื่อมกับบุคคลในภาพด้วย person ID ผู้จัดทำปิดขอบเขตงานที่ 600 ภาพ โดยมีบุคคลบางส่วนในภาพอยู่นอก annotation ขอบเขตการใช้คะแนนจึงอ้างบุคคลและส่วนที่มีคำตอบกำกับ
 
 ชื่อ repository สำหรับเอกสารส่งมอบคือ [CCTV-Human-Parsing-600-Dataset](https://github.com/folklazy/CCTV-Human-Parsing-600-Dataset) ส่วนรหัสชุดข้อมูลคือ `CCTV-Human-Parsing-600`
 
@@ -15,7 +15,8 @@
 | ชื่อชุดข้อมูล | CCTV Human Parsing 600 Dataset |
 | รหัสชุดข้อมูล | `CCTV-Human-Parsing-600` |
 | จำนวนภาพ | 600 ภาพ |
-| งานหลัก | Person bounding-box detection และ four-part human parsing |
+| งานหลัก | การระบุตำแหน่งและแยกสี่ส่วนของบุคคลที่มีคำตอบอ้างอิง |
+| ความครอบคลุมของคนในภาพ | Annotate เฉพาะบุคคลที่เลือก มีคนบางส่วนอยู่นอก annotation |
 | คำตอบอ้างอิง | Visible-person bbox, image-local person ID, part shapes และ ignore regions |
 | คลาสเป้าหมาย | Hair, Face, Upper, Lower |
 | เกณฑ์ขนาดบุคคล | ด้านยาวของ visible bbox ตั้งแต่ 50 px บนภาพต้นฉบับ |
@@ -23,7 +24,7 @@
 | จำนวนกรอบบุคคล | 774 รายการ |
 | จำนวน part shapes | 2,449 รายการ |
 | จำนวน ignore shapes | 171 รายการ |
-| สถานะการส่งมอบ | จัดทำ annotation ครบ 600 ภาพ ตรวจไฟล์และโครงสร้างผ่าน 600/600 ภาพ |
+| สถานะการส่งมอบ | ปิดขอบเขตงาน 600 ภาพ ตรวจไฟล์และโครงสร้างผ่าน 600/600 ภาพ |
 
 อ่าน [ข้อกำหนด annotation](ANNOTATION_SPEC.md) สำหรับนิยามขอบเขตแต่ละคลาสและวิธีอ่านข้อมูล ตารางรหัสที่โปรแกรมอ่านได้อยู่ใน [labels.json](schema/labels.json) และโครงสร้าง JSON อยู่ใน [annotation.schema.json](schema/annotation.schema.json)
 
@@ -46,7 +47,7 @@
 | ภาพที่มี person bbox | 540 ภาพ |
 | ภาพที่ไม่มี person bbox ใน annotation | 60 ภาพ |
 
-การนับสถานที่และกล้องอ้างค่าที่บันทึกใน metadata ส่วนการแบ่งกลางวันกับกลางคืนยังไม่มีการตรวจยืนยันสภาพแสงรายภาพครบชุด ภาพที่ไม่มี bbox ต้องพิจารณาความครบถ้วนของ person inventory ก่อนใช้เป็นภาพลบในการประเมิน detector
+การนับสถานที่และกล้องอ้างค่าที่บันทึกใน metadata ส่วนการแบ่งกลางวันกับกลางคืนยังไม่มีการตรวจยืนยันสภาพแสงรายภาพครบชุด จำนวน 60 ภาพที่ไม่มี bbox อธิบายการมี annotation ในไฟล์ การรับรองภาพลบสำหรับ detector ต้องมีหลักฐานว่าภาพนั้นไม่มีบุคคลที่เข้าเกณฑ์
 
 ### จำนวน annotation รายคลาส
 
@@ -90,6 +91,8 @@ RGB ในตารางใช้ระบาย annotation ให้เห็�
 `bbox` มี detection category ชื่อ `person` และ `category_id=1` ใน namespace ของงาน detection ส่วน `group_id` ใช้บอกเจ้าของภายในภาพ ตัวอย่างเช่น `label_id=1` หมายถึง Hair แต่ `group_id=1` หมายถึงบุคคลหมายเลข 1 ของภาพนั้น
 
 รหัส 0 ครอบคลุมพื้นที่ที่อยู่นอก part shapes ซึ่งอาจเป็นฉากหลัง ส่วนอื่นของคน หรือบริเวณที่ยังไม่มีคำตอบ การใช้พื้นที่เหล่านี้เป็น negative ต้องมี valid-domain ที่กำหนดไว้ก่อน การแยก dataset ID ออกจาก train ID ช่วยให้การแปลงข้อมูลสำหรับโมเดลตรวจย้อนกลับได้ แนวทางนี้พบในตาราง labels ของ Cityscapes ซึ่งประกาศ ID, train ID และ ignore status แยกกัน [Cityscapes label definitions](https://github.com/mcordts/cityscapesScripts/blob/9f0aa8d3fa937c42bd5f21e0180a6546f077539f/cityscapesscripts/helpers/labels.py)
+
+**ID 0 ใช้ชื่อ Unassigned** ตามขอบเขตที่ผู้จัดทำยืนยันว่ามีคนบางส่วนยังไม่ได้ annotate ส่วน Background/OTHER ของ evaluation export ต้องหมายถึงพื้นที่ non-target ที่มีคำตอบยืนยันภายใน domain ของงานนั้น ค่าเลข 0 เพียงอย่างเดียวยังใช้รับรองพื้นที่ดังกล่าวไม่ได้ รายละเอียดและตัวอย่างอยู่ใน [ข้อกำหนด ID 0](ANNOTATION_SPEC.md#41-ความหมายของ-id-0-กับ-background)
 
 ## 4. วิธีจัดทำ annotation
 
@@ -148,6 +151,19 @@ CCTV_Human_Parsing_600/
 
 ผลตรวจโครงสร้างครอบคลุมทั้ง 600 ภาพ ส่วนการเปิดดูประกอบการตรวจทางเทคนิคมีขอบเขต 41 ภาพ การตรวจ polygon self-intersection และการตัดสินขอบเขตทุกส่วนด้วยผู้ตรวจอิสระครบทั้งชุดยังไม่ได้ดำเนินการ
 
+### ประชากร GT ที่ใช้กับ shared-reference export
+
+ตรวจจาก annotation ทั้ง 600 ภาพด้วย `gt_export` ของ shared-reference scorer โดยใช้เกณฑ์คนด้านยาวตั้งแต่ 50 px รวม components ของเจ้าของและคลาสเดียวกัน และใช้ shared ignore/conflict domain
+
+| Target | คน–คลาสที่มี source shape และผ่านเกณฑ์ขนาด | GT parts หลัง shared domain | Positive GT pixels หลัง shared domain |
+| --- | --- | --- | --- |
+| Hair | 545 | 544 | 825,356 |
+| Face | 384 | 384 | 265,216 |
+| Upper | 745 | 745 | 4,394,789 |
+| Lower | 668 | 668 | 1,892,964 |
+
+Hair หนึ่งส่วนถูกยกเว้นทั้งหมดจากการซ้อนคลาส จำนวน source shapes ในตารางองค์ประกอบกับ GT parts ในตารางนี้จึงใช้หน่วยนับต่างกัน Face ใช้ positive pixels ของ GT Face ส่วน Face-local จำกัดบริเวณคำนวณเพิ่มเติมตามกรอบ Face ของแต่ละคน การประเมินต้องผูกตัวหารเหล่านี้กับ manifest, exporter และ scorer ที่ใช้จริง
+
 ## 7. เงื่อนไขการนำไปใช้
 
 ### ขอบเขต coverage ที่ตรวจได้
@@ -165,6 +181,16 @@ CCTV_Human_Parsing_600/
 ### งานประเมินที่รองรับ
 
 ข้อมูลรองรับการศึกษากรอบบุคคลและ masks สี่ส่วนพร้อมเจ้าของ โดยต้องระบุ valid domain, การจับคู่คน และวิธีจัดการพื้นที่กำกวมก่อนคำนวณคะแนน รายละเอียดวิธีนับ TP/FP/FN และตัวชี้วัดอยู่ใน [ข้อกำหนดการประเมิน](ANNOTATION_SPEC.md#8-การนำไปประเมินผล)
+
+| งานหรือคะแนน | ขอบเขตที่ข้อมูลส่งมอบรองรับ |
+| --- | --- |
+| Mean-part IoU, Face-local, mIoU3 และ Macro4-local | ประเมิน GT person-parts ที่มีคำตอบ ภายใต้ขอบเขตและ ownership ที่ประกาศ |
+| Precision / Recall / F1-Dice รายส่วน | รวม TP/FP/FN จากงาน GT person-part ที่มีคำตอบครบขอบอ้างอิง |
+| Annotated-person recall และ bbox IoU ของคู่ที่จับได้ | อ้าง GT bbox ของบุคคลที่เลือก annotate |
+| Person AP / Precision / F1 ทั้งภาพ | ต้องมี person inventory หรือพื้นที่ประเมินที่รับรองครบก่อนให้คะแนนหลัก |
+| Global semantic mIoU ทั้งภาพ | ต้องมีคำตอบ target/non-target ที่รับรองครบใน valid domain ก่อนให้คะแนนหลัก |
+
+Predictions ที่จับคู่กับ GT คนใดไม่ได้ให้รายงานเป็น unmatched predictions ข้อมูลที่มีคนอยู่นอก annotation ยังให้คำตอบไม่พอจะจัดทุกรายการดังกล่าวเป็น false positive ของ detector ค่าคะแนนทั้งภาพที่เงื่อนไขนี้ยังไม่ครบให้เป็น `null` พร้อมเหตุผล
 
 ขอบเขตคำตอบที่มีอยู่จำกัดการใช้งานบางด้านดังนี้
 

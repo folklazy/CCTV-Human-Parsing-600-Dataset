@@ -98,6 +98,8 @@ primary_size_eligible = long_side >= 50
 
 ## 4. Ignore, unassigned และส่วนที่ไม่มี annotation
 
+ผู้จัดทำยืนยันว่าชุดส่งมอบเลือก annotate บุคคลบางส่วน และปิดขอบเขตงานที่ 600 ภาพ คำยืนยันนี้กำหนดขอบเขตของการให้คะแนนแก่คนและส่วนที่มี GT โดยพื้นที่ของคนที่อยู่นอก annotation ยังคงสถานะไม่มีคำตอบ
+
 `ignore` เป็น shape ที่วาดระบุพื้นที่ยกเว้นไว้ในภาพ ใช้ rectangle และ `group_id=null` (ตรวจแล้วไม่มี owner ID ค้างในชุดส่งมอบ) ผู้ใช้ข้อมูลต้องดู `label` เพื่อระบุ ignore region
 
 รหัส 0 ใช้แทน unassigned เมื่อต้องแสดงพื้นที่นอก union ของ target และ ignore บริเวณนี้รวมได้ทั้งฉากหลัง ส่วนอื่นของคน และส่วนที่ยังไม่มีคำตอบ จึงต้องมี valid-domain หรือ coverage information ก่อนใช้เป็น negative ในการคำนวณ FP
@@ -105,6 +107,24 @@ primary_size_eligible = long_side >= 50
 Part ที่ไม่มี shape ยังแยกไม่ได้จากไฟล์เพียงอย่างเดียวว่าไม่มีจริง ถูกบัง อ่านไม่ออก หรือยังไม่มี annotation ข้อมูลยังไม่มีสถานะรายส่วนครบที่จะเปลี่ยนกรณีเหล่านี้เป็น absent/unobservable อัตโนมัติ
 
 พื้นที่ ignore ที่ทับคนผ่านเกณฑ์ต้องมีกติกาจัดการร่วมกันสำหรับทุกโมเดล การยกเว้น prediction เพราะเพียงแตะกรอบ ignore อาจซ่อน FP ได้ ข้อกำหนด dataset นี้ยังไม่ได้ตรึง overlap threshold สำหรับ detector หรือ conflict precedence ของ scorer
+
+### 4.1 ความหมายของ ID 0 กับ Background
+
+ID 0 ของ source ใช้ **Unassigned** ส่วน Background/OTHER ของ export ใช้หมายถึง non-target ที่รับรองได้ภายใน domain ที่กำหนด ตัวเลข ID เป็นการเข้ารหัสที่ dataset เลือกได้ ตัวอย่าง Cityscapes ใช้ source ID 0 เป็น unlabeled และกำหนดให้ ignore ในการประเมิน แสดงให้เห็นว่าความหมายต้องอ่านควบคู่กับ mapping และ ignore policy ของชุดข้อมูลนั้น [Cityscapes official labels](https://github.com/mcordts/cityscapesScripts/blob/9f0aa8d3fa937c42bd5f21e0180a6546f077539f/cityscapesscripts/helpers/labels.py)
+
+| พื้นที่หรือ representation | ความหมายและวิธีนำไปใช้ |
+| --- | --- |
+| Source ID 0 | พื้นที่นอก target shapes รวมคนที่ไม่ได้ annotate และส่วนอื่นที่ไม่มีคำตอบ |
+| Source ID 255 | พื้นที่ที่มี shape ระบุ ignore โดยตรง |
+| Derived global semantic target | ใช้ valid-domain ที่รับรองคำตอบ และแปลงพื้นที่ที่ไม่มีคำตอบเป็น evaluation void |
+| Derived binary person-part task | GT part ของเจ้าของที่เลือกเป็น positive ส่วนภายนอก reference part ของเจ้าของนั้นเป็น non-target ภายใน shared valid domain ตามนิยามงาน |
+| Native prediction background | คลาสที่โมเดลทำนาย เก็บตาม native contract และแปลงด้วย mapping ของ prediction |
+
+ตัวอย่างเช่น มีคนที่ไม่ได้ annotate สวมเสื้ออยู่ในภาพ โมเดลอาจทาย Upper ของคนนั้นได้ จึงต้องยกเว้นการให้คำตอบถูก/ผิดแบบ global ณ พื้นที่ที่ยังไม่มี GT ส่วนการทาย Upper ของคนข้างเคียงมารวมเป็นเสื้อของเจ้าของที่กำลังประเมิน เป็นการทายเกินในงานรายบุคคลเมื่อขอบเสื้อของเจ้าของนั้นมี reference extent ครบ
+
+Valid-domain ของ person-part task ต้องคำนวณเหมือนกันทุกโมเดลจาก GT และกติกาที่ตรึงไว้ การแปลงเลข 0 ทั้งภาพเป็น void อย่างเดียวจะตัดพื้นที่นอก polygon ที่ใช้ตรวจการทายเกินในงานรายส่วนออกด้วย จึงต้องสร้าง domain ตามชนิดงานที่ประกาศ
+
+หากใช้ MMSegmentation ต้องตรวจ `label_map` และ `reduce_zero_label` กับ IDs ของ export อย่างชัดเจน การเปิด `reduce_zero_label=True` จะเปลี่ยน 0 เป็น ignore และเลื่อน ID คลาสอื่นลงหนึ่ง การคง source IDs 1–4 จึงต้องใช้ explicit mapping พร้อม fixture ยืนยันชื่อคลาสและ channel order [MMSegmentation dataset guide](https://mmsegmentation.readthedocs.io/en/latest/advanced_guides/datasets.html#modification-of-dataset-classes)
 
 ## 5. พิกัดและรูปทรง
 
@@ -243,7 +263,7 @@ JSON Schema ตรวจชนิดข้อมูลและ vocabulary ส�
 
 ใช้ visible GT bbox เป็น reference และใช้ `long_side >= 50` กำหนดกลุ่มหลักตามข้อ 3 กติกาประเมินต้องระบุ bbox IoU thresholds, confidence handling, ignore matching และ missed/duplicate detections ก่อนรัน
 
-การมีกรอบ bbox รองรับการวัด box IoU, precision, recall และ AP ตาม protocol ที่เลือก ส่วน mask IoU/AP ของคนเต็มตัวต้องมี full-person GT masks เพิ่ม
+การมีกรอบ bbox ของบุคคลที่เลือก annotate รองรับ annotated-person recall และ box IoU ของคู่ที่จับได้ Predictions ที่จับคู่ไม่ได้ให้เก็บเป็น unmatched predictions การรายงาน AP, precision และ F1 ของ detector ทั้งภาพต้องมีหลักฐานความครบของ person inventory หรือ certified evaluation regions ก่อน คะแนนหลักดังกล่าวให้เป็น `null` เมื่อขอบเขต negative ยังไม่ครบ ส่วน mask IoU/AP ของคนเต็มตัวต้องมี full-person GT masks เพิ่ม
 
 ### Four-part parsing
 
@@ -259,11 +279,13 @@ mIoU4 = (IoU(Hair) + IoU(Face) + IoU(Upper) + IoU(Lower)) / 4
 
 Recall อธิบายว่าเก็บส่วนที่ GT ระบุไว้ได้เท่าไร Precision อธิบายว่าส่วนที่ทำนายมามีพิกเซลถูกคลาสเท่าไร ส่วน IoU คิดทั้งพื้นที่ที่ตกหล่นและพื้นที่ที่เกิน หากทำนาย Hair บน GT Upper จะเกิด FP ของ Hair และ FN ของ Upper เมื่อทั้งสองอยู่ใน valid domain
 
+สูตร IoU, Dice, Precision, Recall และ F-score จาก intersection/union กับ pixel support ตรวจเทียบได้กับ implementation ทางการของ MMSegmentation ซึ่งกรอง ignore pixels ก่อนสะสม counts ส่วนการเฉลี่ยราย GT part และ Face-local เป็นขอบเขตงานที่ต้องประกาศเพิ่มเติมใน protocol [MMSegmentation IoUMetric source](https://github.com/open-mmlab/mmsegmentation/blob/v1.2.2/mmseg/evaluation/metrics/iou_metric.py)
+
 สี่คลาสนี้ต้องได้จากการรวม mask ตามนิยามก่อนคำนวณ confusion หรือ TP/FP/FN การเฉลี่ย IoU ของ native subclasses ใช้แทน IoU ของ mask union ไม่ได้ หากคำนวณ global metrics ให้รวม counts จากภาพทั้งหมดก่อนหาร ส่วน mean รายภาพหรือรายคนต้องประกาศเป็น aggregation คนละแบบ
 
 ก่อนใช้ mIoU4 ต้องปิด valid domain, conflicts, ignore และ eligibility ของคลาสทั้งสี่ให้ครบ กรณี denominator เป็นศูนย์ต้องรายงานว่าไม่กำหนดหรือไม่เข้า mean ตามกติกาที่ตรึงไว้ การแทนค่าศูนย์หรือหนึ่งโดยไม่มีข้อกำหนดจะเปลี่ยนผลสรุป
 
-การประเมินรายคนใช้ bbox-based matching ที่กำหนด threshold และ tie policy ล่วงหน้า แล้วเทียบ part masks ของคู่ที่ได้ Missed GT ต้องมีบทลงโทษตาม denominator ที่ประกาศ ส่วน unmatched predictions ต้องนับ FP แยก การรายงานเฉพาะคู่ที่จับได้จะอธิบายเฉพาะ matched subset
+การประเมินรายคนใช้ bbox-based matching ที่กำหนด threshold และ tie policy ล่วงหน้า แล้วเทียบ part masks ของคู่ที่ได้ Missed GT ใช้ empty prediction และ positive GT parts ของคนนั้นยังอยู่ใน denominator ส่วน unmatched predictions เก็บเป็น diagnostics ตามขอบเขต annotation ที่มี การรายงานเฉพาะคู่ที่จับได้จะอธิบายเฉพาะ matched subset
 
 ### การใช้กับ shared-reference parsing benchmark
 
@@ -276,15 +298,18 @@ Recall อธิบายว่าเก็บส่วนที่ GT ระบ
 | mIoU3 (part-mean) | เฉลี่ย Mean-part IoU ของ Hair, Upper และ Lower | ค่าเฉลี่ยสามส่วนที่กำหนด |
 | Macro4-local | เฉลี่ย Hair, Face-local, Upper และ Lower คลาสละ 25% | ค่าเฉลี่ยสี่ส่วนภายใต้ Face-local domain |
 | Pooled Precision / Recall / F1 | รวม TP/FP/FN ของ GT person-part tasks ภายในคลาสก่อนหาร | พื้นที่ถูก พื้นที่เกิน และพื้นที่ตกหล่นสะสม |
-| Person bbox Precision / Recall / F1 | นับคู่ GT bbox และ predicted bbox ตาม threshold ที่กำหนด | การพบคน การพลาดคน และ detections ส่วนเกิน |
+| Annotated-person bbox recall | TP/(TP+FN) โดยใช้ GT bbox ของคนที่ annotate และ threshold ที่ประกาศ | การพบและพลาดบุคคลในรายการ GT |
+| Unmatched predictions | จำนวน predictions ที่ไม่จับคู่กับ GT bbox ที่มี | Diagnostics ของ detections นอกคู่ GT โดยยังรวมคนที่ไม่มี annotation ได้ |
 
-Hair/Upper/Lower ของงานนี้เทียบ mask ของคนที่จับคู่กับ positive GT part ของเจ้าของนั้นบน shared valid grid ทั้งภาพ Pixel ที่อยู่นอกขอบ GT part จัดเป็น non-target ของงานรายส่วนนั้น Face-local จำกัดบริเวณตามตาราง การใช้ reference extent นี้ต้องอาศัยผู้ตรวจยืนยันขอบที่มองเห็นครบของส่วนที่ annotate คนที่จับคู่ไม่ได้ใช้ empty prediction และ positive parts ของคนนั้นยังอยู่ในตัวหาร ส่วนคนที่ทายเกินรายงานใน person FP
+Hair/Upper/Lower ของงานนี้เทียบ mask ของคนที่จับคู่กับ positive GT part ของเจ้าของนั้นบน shared valid grid ทั้งภาพ Pixel ที่อยู่นอกขอบ GT part จัดเป็น non-target ของงานรายส่วนนั้น Face-local จำกัดบริเวณตามตาราง การใช้ reference extent นี้ต้องอาศัยผู้ตรวจยืนยันขอบที่มองเห็นครบของส่วนที่ annotate คนที่จับคู่ไม่ได้ใช้ empty prediction และ positive parts ของคนนั้นยังอยู่ในตัวหาร ส่วน predictions นอกคู่ GT เก็บเป็น unmatched diagnostics
 
 Shared valid grid ของ implementation ยกเว้น explicit ignore, พื้นที่ของ GT bbox ต่ำกว่า 50 px, class/owner conflicts และ geometry ที่ใช้ประเมินไม่ได้ พร้อมบันทึก GT bindings ต่อภาพ Source unassigned คงความหมายตามข้อ 4 การประเมินนี้ให้หลักฐาน conditional person-part agreement ตามงานที่มีคำตอบ กรณี Sapiens ใช้ Face_Neck และ facial subparts ต้องระบุ Face proxy และ domain ของ Face-local ในรายงาน
 
 Mean-part IoU กับ pooled IoU มีตัวหารต่างกัน และ Macro4-local ต้องใช้ชื่อกำกับ Face-local อย่างชัดเจน ผล global mIoU4 ที่ต้องมี semantic reference ครบทั้งภาพขึ้นกับความครบถ้วนของคำตอบบน valid domain นั้น
 
 ข้อกำหนด metric และผลการทดลองให้อ้าง protocol/run ของ repository benchmark ควบคู่กับ membership SHA256 ของ dataset ที่ใช้ รายงานผลต้องมีจำนวนภาพ จำนวน GT parts และ valid support ที่เข้าเกณฑ์จริง
+
+สำหรับการทดลองถัดไป reporter ต้องแสดงข้อจำกัด partial-person coverage และแยก unmatched count ออกจาก confirmed false positives การใช้ scalar person precision/F1/AP จากการนับทุกรายการ unmatched เป็น FP ยังมีขอบเขตกว้างกว่าคำตอบที่ dataset ส่งมอบ
 
 ## 9. แหล่งอ้างอิง
 
@@ -295,5 +320,6 @@ Mean-part IoU กับ pooled IoU มีตัวหารต่างกัน
 - CrowdHuman ประกาศ visible-region และ full-body boxes แยกกัน ใช้อ้างการเปิดเผยนิยามกรอบ [Official dataset](https://www.crowdhuman.org/)
 - NightOwls ประกาศเกณฑ์ขนาดและ ignore categories ใช้อ้างการกำหนดประชากรเป้าหมาย [Official annotation examples](https://www.nightowls-dataset.org/examples/)
 - X-AnyLabeling ระบุ shape keys เช่น label, points, group_id, shape_type และ attributes ใช้เทียบโครงสร้างไฟล์ที่ส่งมอบ [Official Shape source](https://github.com/CVHub520/X-AnyLabeling/blob/a833794f8f866e6947a3a3d56fd60eb0d8f8faad/anylabeling/views/labeling/shape.py)
+- MMSegmentation แยกการ map labels และ ignore pixels รวมถึงสูตร IoU/Dice/F-score จาก counts ใช้อ้างวิธีตรวจ exporter และ scorer [Dataset guide](https://mmsegmentation.readthedocs.io/en/latest/advanced_guides/datasets.html), [IoUMetric source](https://github.com/open-mmlab/mmsegmentation/blob/v1.2.2/mmseg/evaluation/metrics/iou_metric.py)
 
-ตรวจแหล่งอ้างอิงเมื่อ 16 พฤศจิกายน 2026 นิยามเฉพาะของ dataset ให้ยึดข้อกำหนดในเอกสารนี้และผลตรวจ annotations ที่ประกาศไว้
+ตรวจแหล่งอ้างอิงเมื่อ 16–17 พฤศจิกายน 2026 นิยามเฉพาะของ dataset ให้ยึดข้อกำหนดในเอกสารนี้และผลตรวจ annotations ที่ประกาศไว้
