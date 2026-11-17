@@ -1,10 +1,10 @@
 {
   "dataset": "CCTV-Human-Parsing-600",
-  "dataset_version": "1.0.0",
+  "dataset_version": "1.0.1-rc.1",
   "ontology_version": "1.0.0",
   "image_count": 600,
   "annotation_format": "X-AnyLabeling JSON polygons and rectangles",
-  "annotation_acceptance": "user_confirmed_snapshot",
+  "annotation_acceptance": "user_revised_snapshot_technical_audit_pass_semantic_QA_open",
   "primary_person_eligibility": {
     "coordinate_frame": "original_image",
     "bbox_scope": "visible_person",
@@ -15,25 +15,25 @@
   },
   "counts": {
     "person_boxes": 774,
-    "part_shapes": 2471,
+    "part_shapes": 2449,
     "ignore_shapes": 172,
     "shapes_per_class": {
-      "hair": 554,
-      "face": 398,
-      "upper": 804,
-      "lower": 715
+      "hair": 550,
+      "face": 393,
+      "upper": 799,
+      "lower": 707
     },
     "image_person_pairs_per_class": {
-      "hair": 549,
-      "face": 396,
-      "upper": 745,
-      "lower": 668
+      "hair": 545,
+      "face": 391,
+      "upper": 746,
+      "lower": 664
     },
     "images_per_class": {
-      "hair": 436,
-      "face": 331,
+      "hair": 435,
+      "face": 327,
       "upper": 532,
-      "lower": 484
+      "lower": 482
     }
   },
   "geometry_counts": [
@@ -45,17 +45,12 @@
     {
       "label": "face",
       "shape_type": "polygon",
-      "count": 397
-    },
-    {
-      "label": "face",
-      "shape_type": "rectangle",
-      "count": 1
+      "count": 393
     },
     {
       "label": "hair",
       "shape_type": "polygon",
-      "count": 554
+      "count": 550
     },
     {
       "label": "ignore",
@@ -65,22 +60,12 @@
     {
       "label": "lower",
       "shape_type": "polygon",
-      "count": 711
-    },
-    {
-      "label": "lower",
-      "shape_type": "rectangle",
-      "count": 4
+      "count": 707
     },
     {
       "label": "upper",
       "shape_type": "polygon",
-      "count": 802
-    },
-    {
-      "label": "upper",
-      "shape_type": "rectangle",
-      "count": 2
+      "count": 799
     }
   ],
   "image_dimensions": {
@@ -112,21 +97,29 @@
     "orphan_part_ids": 0,
     "duplicate_bbox_ids": 0,
     "image_or_annotation_files_modified": 0,
-    "independent_semantic_review": "targeted_examples_only"
+    "independent_semantic_review": "changed_23_images_and_3_highest_interior_overlap_cases_targeted_visual_review",
+    "unchanged_image_hashes_against_1_0_0": 600,
+    "changed_annotation_hashes_against_1_0_0": 23,
+    "bbox_geometry_and_owner_unchanged_images": 600,
+    "source_stable_during_audit": true,
+    "exact_same_owner_class_duplicate_raster_pairs": 0,
+    "duplicate_component_check": "exact raster equality only; disjoint components retained"
   },
   "known_issues": {
-    "zero_geometric_area_part_shapes": 5,
+    "zero_geometric_area_part_shapes": 0,
     "out_of_frame_shapes": 4,
     "ignore_shapes_with_owner": 1,
-    "cross_class_pixels": 7901,
-    "cross_class_images": 182,
+    "cross_class_pixels": 7893,
+    "cross_class_images": 181,
     "interior_cross_class_pixels_after_erosion": 3888,
     "interior_cross_class_images_after_erosion": 17,
     "cross_owner_pixels": 91,
     "cross_owner_images": 8,
     "ignore_target_overlap_pixels": 107,
     "ignore_target_overlap_images": 2,
-    "targeted_semantic_class_issue_cases": 1
+    "targeted_semantic_class_issue_cases": 0,
+    "targeted_semantic_class_issue_cases_definition": "previously recorded Lower-at-head example no longer present at the reviewed location; not a full-dataset semantic error count",
+    "remaining_high_priority_cross_class_overlap_examples": 3
   },
   "coverage_limits": {
     "complete_full_person_mask_gt": false,
@@ -143,13 +136,13 @@
     "documentation": "GitHub",
     "images_annotations_metadata": "restricted"
   },
-  "membership_sha256": "d9a5cdc80d3b1f462125776e02c2ef1e87be1b881bdd3482e81d72fdaf25d6fc",
+  "membership_sha256": "4fc98058ecf33e33b9116cef938958860545be4e6d05b06dc87d49a64aaf4126",
   "membership_hash_definition": "sha256 of compact UTF-8 JSON array [image_id,image_sha256,annotation_sha256] ordered by image_id, without trailing newline",
   "ontology_sha256": "4da8446c22d7c2a7aa896b46d38ba2cf60ba52308e6b42cea1bca026a8d28c7c",
   "annotation_schema_sha256": "4af5266a5eb1d5935b6d980fb24c975d282893bb47d96560bca12e0abed194d3",
-  "statistics_date": "2026-11-16",
-  "release_qa_status": "USER_CLOSED_WITH_DOCUMENTED_QUALITY_ISSUES",
-  "private_manifest_sha256": "fb17457b918e5cc86d0866f9f1e3651fd2605e427f8e7aa952b2f1aae1958cf4",
+  "statistics_date": "2026-11-17",
+  "release_qa_status": "CANDIDATE_AUDITED_WITH_OPEN_QA",
+  "private_manifest_sha256": "78d18bf0b5e32897fa564875155d4be1da3119c2441ac59098114a1bde322c8a",
   "metadata_columns": [
     "image_id",
     "image_path",
@@ -163,5 +156,25 @@
     "source_timestamp",
     "diurnal_metadata",
     "exposure_status"
-  ]
+  ],
+  "annotation_revision": {
+    "previous_dataset_version": "1.0.0",
+    "previous_repository_commit": "d77ad2eec84e3e44b1465abd17031c8f57e1f18f",
+    "previous_membership_sha256": "d9a5cdc80d3b1f462125776e02c2ef1e87be1b881bdd3482e81d72fdaf25d6fc",
+    "changed_annotation_files": 23,
+    "part_shape_count_change": -22,
+    "ontology_changed": false,
+    "audit_model_calls": 0,
+    "source_annotations_automatically_modified": 0,
+    "reviewed_source_scope": "23 changed annotation images and 3 additional overlap examples",
+    "pending": "human adjudication of class/owner conflicts and unresolved semantic QA, then a new revision snapshot"
+  },
+  "audit": {
+    "completed_utc": "2026-11-17T06:41:02.842471+00:00",
+    "summary_sha256": "b709869adb819bfe954b16c5373e8a523657417ceb7dbde75d608a5b86cd583e",
+    "schema_validation_sha256": "80151513fa2289794d712467b78f243a84b6061dc941f50618f1f1631776e85b",
+    "raster_definition": "PIL ImageDraw filled polygon/rectangle on original grid, inclusive boundaries; per-class union; 3x3 erosion once for interior overlap; no conflict resolution",
+    "polygon_self_intersection_verification": "not_performed",
+    "complete_semantic_boundary_review": "not_performed"
+  }
 }

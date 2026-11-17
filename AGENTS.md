@@ -1,5 +1,17 @@
 # Dataset repository
 
+## Current annotation revision — 2026-11-17
+
+DATASET.json and README describe 1.0.1-rc.1, a private immutable snapshot of
+user-corrected annotations. Exact600 image hashes and bbox geometry/owners are
+unchanged. Twenty-three annotation files changed, with2449 part shapes.
+Technical checks pass600, with open class/owner overlap QA. The private CURRENT.json
+selects the audited manifest. The root private manifest.csv remains the1.0.0
+baseline and its source annotation paths now contain user edits. Public1.0.0
+records remain available at commit d77ad2e. Read the current README for counts
+and review scope. User edits annotations. This revision audit changed no source
+images, source annotations, ontology, scorer or frozen benchmark config.
+
 This repository describes only the closed 600-image CCTV annotation dataset.
 Keep the README dataset-focused and write Thai prose in a direct academic style.
 The annotation specification and schema define the release contract.
