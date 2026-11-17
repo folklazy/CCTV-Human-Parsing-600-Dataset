@@ -5,7 +5,12 @@
 DATASET.json and README describe 1.0.1-rc.1, a private immutable snapshot of
 user-corrected annotations. Exact600 image hashes and bbox geometry/owners are
 unchanged. Twenty-three annotation files changed, with2449 part shapes.
-Technical checks pass600, with open class/owner overlap QA. The private CURRENT.json
+Technical checks pass600. On2026-11-17 the user reviewed and accepted the three
+flagged Hair/Upper overlaps, attributing them to the downward camera view.
+Record these as user-reviewed accepted geometry. Existing export voids cross-class
+pixels, causing one reviewed Hair part to have zero eligible support. Keep this
+evaluation-domain limitation explicit and distinguish user acceptance from full
+visible-surface semantic verification. The private CURRENT.json
 selects the audited manifest. The root private manifest.csv remains the1.0.0
 baseline and its source annotation paths now contain user edits. Public1.0.0
 records remain available at commit d77ad2e. Read the current README for counts

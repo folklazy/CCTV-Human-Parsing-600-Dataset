@@ -4,7 +4,7 @@
   "ontology_version": "1.0.0",
   "image_count": 600,
   "annotation_format": "X-AnyLabeling JSON polygons and rectangles",
-  "annotation_acceptance": "user_revised_snapshot_technical_audit_pass_semantic_QA_open",
+  "annotation_acceptance": "user_revised_snapshot_with_user_accepted_overlaps",
   "primary_person_eligibility": {
     "coordinate_frame": "original_image",
     "bbox_scope": "visible_person",
@@ -119,7 +119,8 @@
     "ignore_target_overlap_images": 2,
     "targeted_semantic_class_issue_cases": 0,
     "targeted_semantic_class_issue_cases_definition": "previously recorded Lower-at-head example no longer present at the reviewed location; not a full-dataset semantic error count",
-    "remaining_high_priority_cross_class_overlap_examples": 3
+    "remaining_high_priority_cross_class_overlap_examples": 0,
+    "user_reviewed_accepted_overlap_examples": 3
   },
   "coverage_limits": {
     "complete_full_person_mask_gt": false,
@@ -141,7 +142,7 @@
   "ontology_sha256": "4da8446c22d7c2a7aa896b46d38ba2cf60ba52308e6b42cea1bca026a8d28c7c",
   "annotation_schema_sha256": "4af5266a5eb1d5935b6d980fb24c975d282893bb47d96560bca12e0abed194d3",
   "statistics_date": "2026-11-17",
-  "release_qa_status": "CANDIDATE_AUDITED_WITH_OPEN_QA",
+  "release_qa_status": "AUDITED_WITH_DOCUMENTED_EXPORT_LIMITATIONS",
   "private_manifest_sha256": "78d18bf0b5e32897fa564875155d4be1da3119c2441ac59098114a1bde322c8a",
   "metadata_columns": [
     "image_id",
@@ -167,7 +168,7 @@
     "audit_model_calls": 0,
     "source_annotations_automatically_modified": 0,
     "reviewed_source_scope": "23 changed annotation images and 3 additional overlap examples",
-    "pending": "human adjudication of class/owner conflicts and unresolved semantic QA, then a new revision snapshot"
+    "pending": "shared-reference export support/eligibility disclosure; other documented audit limitations retained"
   },
   "audit": {
     "completed_utc": "2026-11-17T06:41:02.842471+00:00",
@@ -176,5 +177,16 @@
     "raster_definition": "PIL ImageDraw filled polygon/rectangle on original grid, inclusive boundaries; per-class union; 3x3 erosion once for interior overlap; no conflict resolution",
     "polygon_self_intersection_verification": "not_performed",
     "complete_semantic_boundary_review": "not_performed"
+  },
+  "annotation_review": {
+    "recorded_utc": "2026-11-17T07:08:23.154421+00:00",
+    "status": "USER_REVIEWED_ACCEPTED_OVERLAPS",
+    "examples": 3,
+    "rationale": "user attributes geometry to downward camera view and hair/clothing alignment",
+    "GT_files_changed_by_this_review": 0,
+    "membership_unchanged": true,
+    "export_policy": "existing shared-reference valid domain excludes cross-class overlaps",
+    "reviewed_Hair_parts_with_zero_valid_support": 1,
+    "scope": "acceptance of the three flagged source geometries; export coverage remains limited"
   }
 }
