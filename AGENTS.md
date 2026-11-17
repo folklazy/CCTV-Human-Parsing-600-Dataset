@@ -1,21 +1,21 @@
 # Dataset repository
 
-## Current annotation revision — 2026-11-17
+## Delivery presentation
 
-DATASET.json and README describe 1.0.1-rc.1, a private immutable snapshot of
-user-corrected annotations. Exact600 image hashes and bbox geometry/owners are
-unchanged. Twenty-three annotation files changed, with2449 part shapes.
-Technical checks pass600. On2026-11-17 the user reviewed and accepted the three
-flagged Hair/Upper overlaps, attributing them to the downward camera view.
-Record these as user-reviewed accepted geometry. Existing export voids cross-class
-pixels, causing one reviewed Hair part to have zero eligible support. Keep this
+The user requested that the public README, annotation specification and summary
+describe the completed600-image dataset. Keep working versions, correction
+comparisons and revision chronology in private provenance and Git history.
+Current data contains 774 person boxes, 2449 part shapes and 171 ignore shapes.
+The private CURRENT.json selects the audited manifest. Dataset identity is
+available through membership and content hashes. Preserve technical bindings in
+their original records when simplifying the public presentation.
+
+The user reviewed and accepted the three flagged Hair/Upper overlaps, attributing
+them to the downward camera view. Existing export voids cross-class pixels,
+causing one reviewed Hair part to have zero eligible support. Keep this
 evaluation-domain limitation explicit and distinguish user acceptance from full
-visible-surface semantic verification. The private CURRENT.json
-selects the audited manifest. The root private manifest.csv remains the1.0.0
-baseline and its source annotation paths now contain user edits. Public1.0.0
-records remain available at commit d77ad2e. Read the current README for counts
-and review scope. User edits annotations. This revision audit changed no source
-images, source annotations, ontology, scorer or frozen benchmark config.
+visible-surface semantic verification. Read README for the delivered counts and
+review scope.
 
 This repository describes only the closed 600-image CCTV annotation dataset.
 Keep the README dataset-focused and write Thai prose in a direct academic style.
